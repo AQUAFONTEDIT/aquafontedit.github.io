@@ -8,6 +8,8 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
         #map {
             width: 1438px;
@@ -29,6 +31,8 @@
         <script src="js/rbush.min.js"></script>
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet-search.js"></script>
         <script src="data/Ilots20200608Cad97_1.js"></script>
         <script src="data/Courbesdeniveau_2.js"></script>
         <script src="data/Trace20200608Cad97_3.js"></script>
@@ -43,8 +47,21 @@
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
+            map.setMaxBounds(map.getBounds());
         }
         map.createPane('pane_OpenStreetMap_0');
         map.getPane('pane_OpenStreetMap_0').style.zIndex = 400;
@@ -74,10 +91,11 @@
                         <td colspan="2">' + (feature.properties['map_name'] !== null ? autolinker.link(feature.properties['map_name'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['nom'] !== null ? autolinker.link(feature.properties['nom'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">nom</th>\
+                        <td>' + (feature.properties['nom'] !== null ? autolinker.link(feature.properties['nom'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>cabine</strong><br />' + (feature.properties['cabine'] !== null ? autolinker.link(feature.properties['cabine'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['cabine'] !== null ? autolinker.link(feature.properties['cabine'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['proprio_1'] !== null ? autolinker.link(feature.properties['proprio_1'].toLocaleString()) : '') + '</td>\
@@ -179,7 +197,7 @@
                 lineJoin: 'bevel',
                 weight: 2.0,
                 fillOpacity: 0,
-                interactive: true,
+                interactive: false,
             }
         }
         map.createPane('pane_Courbesdeniveau_2');
@@ -187,7 +205,7 @@
         map.getPane('pane_Courbesdeniveau_2').style['mix-blend-mode'] = 'normal';
         var layer_Courbesdeniveau_2 = new L.geoJson(json_Courbesdeniveau_2, {
             attribution: '',
-            interactive: true,
+            interactive: false,
             dataVar: 'json_Courbesdeniveau_2',
             layerName: 'layer_Courbesdeniveau_2',
             pane: 'pane_Courbesdeniveau_2',
@@ -280,7 +298,8 @@
                         <td colspan="2">' + (feature.properties['map_name'] !== null ? autolinker.link(feature.properties['map_name'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['numéro'] !== null ? autolinker.link(feature.properties['numéro'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">numéro</th>\
+                        <td>' + (feature.properties['numéro'] !== null ? autolinker.link(feature.properties['numéro'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
@@ -328,7 +347,8 @@
                         <td colspan="2">' + (feature.properties['qc_id'] !== null ? autolinker.link(feature.properties['qc_id'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">name</th>\
+                        <td>' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['map_name'] !== null ? autolinker.link(feature.properties['map_name'].toLocaleString()) : '') + '</td>\
@@ -391,7 +411,8 @@
                         <td colspan="2">' + (feature.properties['qc_id'] !== null ? autolinker.link(feature.properties['qc_id'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">name</th>\
+                        <td>' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['descriptio'] !== null ? autolinker.link(feature.properties['descriptio'].toLocaleString()) : '') + '</td>\
@@ -562,7 +583,9 @@
             style: style_Parcelles97_7_0,
         });
         bounds_group.addLayer(layer_Parcelles97_7);
-        map.addLayer(layer_Parcelles97_7);L.control.scale({position: 'bottomleft', maxWidth: 100, metric: true, imperial: false, updateWhenIdle: false}).addTo(map);
+        map.addLayer(layer_Parcelles97_7);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Parcelles97_7.png" /> Parcelles97': layer_Parcelles97_7,'<img src="legend/SondagesCad97_6.png" /> SondagesCad97': layer_SondagesCad97_6,'<img src="legend/Fourreaux20200608Cad97_5.png" /> Fourreaux20200608Cad97': layer_Fourreaux20200608Cad97_5,'<img src="legend/Borne20200608Cad97_4.png" /> Borne20200608Cad97': layer_Borne20200608Cad97_4,'<img src="legend/Trace20200608Cad97_3.png" /> Trace20200608Cad97': layer_Trace20200608Cad97_3,'<img src="legend/Courbesdeniveau_2.png" /> Courbes de niveau': layer_Courbesdeniveau_2,'<img src="legend/Ilots20200608Cad97_1.png" /> Ilots20200608Cad97': layer_Ilots20200608Cad97_1,"OpenStreetMap": layer_OpenStreetMap_0,}).addTo(map);L.control.scale({position: 'bottomleft', maxWidth: 100, metric: true, imperial: false, updateWhenIdle: false}).addTo(map);
         setBounds();
         var i = 0;
         layer_Courbesdeniveau_2.eachLayer(function(layer) {
@@ -577,6 +600,13 @@
               addLabel(layer, i);
               i++;
         });
+        map.addControl(new L.Control.Search({
+            layer: layer_SondagesCad97_6,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'name'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
         resetLabels([layer_Courbesdeniveau_2]);
         map.on("zoomend", function(){
             resetLabels([layer_Courbesdeniveau_2]);
