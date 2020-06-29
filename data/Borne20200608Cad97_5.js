@@ -1,0 +1,19 @@
+var json_Borne20200608Cad97_5 = {
+"type": "FeatureCollection",
+"name": "Borne20200608Cad97_5",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "qc_id": 31.0, "kml_style": "msn_placemark_circle1", "kml_folder": "Cabine_L93", "map_name": "Trac�_def_AVP_08-06-2020.kmz - Cabine_L93", "numéro": "C_042" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 3.169559538530118, 43.452190563197526 ] ] } },
+{ "type": "Feature", "properties": { "qc_id": 32.0, "kml_style": "msn_placemark_circle11", "kml_folder": "Cabine_L93", "map_name": "Trac�_def_AVP_08-06-2020.kmz - Cabine_L93", "numéro": "C_043" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 3.169345139308414, 43.459520949027933 ] ] } },
+{ "type": "Feature", "properties": { "qc_id": 33.0, "kml_style": "msn_placemark_circle101", "kml_folder": "Cabine_L93", "map_name": "Trac�_def_AVP_08-06-2020.kmz - Cabine_L93", "numéro": "C_044" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 3.165313203179451, 43.463380984151208 ] ] } },
+{ "type": "Feature", "properties": { "qc_id": 42.0, "kml_style": "msn_placemark_circle11", "kml_folder": "Cabine_L93", "map_name": "Trac�_def_AVP_08-06-2020.kmz - Cabine_L93", "numéro": "C_054" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 3.163048207082443, 43.453226602880996 ] ] } },
+{ "type": "Feature", "properties": { "qc_id": 43.0, "kml_style": "msn_placemark_circle101", "kml_folder": "Cabine_L93", "map_name": "Trac�_def_AVP_08-06-2020.kmz - Cabine_L93", "numéro": "C_055" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 3.15584160799662, 43.453164611111447 ] ] } },
+{ "type": "Feature", "properties": { "qc_id": 44.0, "kml_style": "msn_placemark_circle0", "kml_folder": "Cabine_L93", "map_name": "Trac�_def_AVP_08-06-2020.kmz - Cabine_L93", "numéro": "C_056" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 3.147931875518597, 43.45875821574144 ] ] } },
+{ "type": "Feature", "properties": { "qc_id": 45.0, "kml_style": "msn_placemark_circle2", "kml_folder": "Cabine_L93", "map_name": "Trac�_def_AVP_08-06-2020.kmz - Cabine_L93", "numéro": "C_057" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 3.146006440840569, 43.454888541762664 ] ] } },
+{ "type": "Feature", "properties": { "qc_id": 46.0, "kml_style": "msn_placemark_circle101", "kml_folder": "Cabine_L93", "map_name": "Trac�_def_AVP_08-06-2020.kmz - Cabine_L93", "numéro": "C_058" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 3.145663830273541, 43.461498644725907 ] ] } },
+{ "type": "Feature", "properties": { "qc_id": 49.0, "kml_style": "msn_placemark_circle101", "kml_folder": "Cabine_L93", "map_name": "Trac�_def_AVP_08-06-2020.kmz - Cabine_L93", "numéro": "C_061" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 3.156375059456607, 43.458710961582398 ] ] } },
+{ "type": "Feature", "properties": { "qc_id": 50.0, "kml_style": "msn_placemark_circle2", "kml_folder": "Cabine_L93", "map_name": "Trac�_def_AVP_08-06-2020.kmz - Cabine_L93", "numéro": "C_068" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 3.151484097058841, 43.455529776644532 ] ] } },
+{ "type": "Feature", "properties": { "qc_id": 51.0, "kml_style": "msn_placemark_circle101", "kml_folder": "Cabine_L93", "map_name": "Trac�_def_AVP_08-06-2020.kmz - Cabine_L93", "numéro": "C_069" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 3.147314310457622, 43.464071956782604 ] ] } },
+{ "type": "Feature", "properties": { "qc_id": 52.0, "kml_style": "msn_placemark_circle101", "kml_folder": "Cabine_L93", "map_name": "Trac�_def_AVP_08-06-2020.kmz - Cabine_L93", "numéro": "C_063" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 3.157325898306169, 43.463077077564137 ] ] } }
+]
+}
