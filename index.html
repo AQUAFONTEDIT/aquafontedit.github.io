@@ -9,6 +9,8 @@
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
         #map {
@@ -33,6 +35,9 @@
         <script src="js/labels.js"></script>
         <script src="js/leaflet-measure.js"></script>
         <script src="js/leaflet-search.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
         <script src="data/Ilots20200608Cad97_1.js"></script>
         <script src="data/Parcelles97_2.js"></script>
         <script src="data/Courbesdeniveau_3.js"></script>
@@ -44,6 +49,17 @@
         var highlightLayer;
         function highlightFeature(e) {
             highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#37ff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#37ff00',
+                fillOpacity: 1
+              });
+            }
             highlightLayer.openPopup();
         }
         var map = L.map('map', {
@@ -84,6 +100,9 @@
         function pop_Ilots20200608Cad97_1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
                     if (typeof layer.closePopup == 'function') {
                         layer.closePopup();
                     } else {
@@ -189,6 +208,9 @@
         function pop_Parcelles97_2(feature, layer) {
             layer.on({
                 mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
                     if (typeof layer.closePopup == 'function') {
                         layer.closePopup();
                     } else {
@@ -274,7 +296,7 @@
                 lineJoin: 'bevel',
                 weight: 1.0,
                 fillOpacity: 0,
-                interactive: true,
+                interactive: false,
             }
         }
         map.createPane('pane_Parcelles97_2');
@@ -282,7 +304,7 @@
         map.getPane('pane_Parcelles97_2').style['mix-blend-mode'] = 'normal';
         var layer_Parcelles97_2 = new L.geoJson(json_Parcelles97_2, {
             attribution: '',
-            interactive: true,
+            interactive: false,
             dataVar: 'json_Parcelles97_2',
             layerName: 'layer_Parcelles97_2',
             pane: 'pane_Parcelles97_2',
@@ -294,6 +316,9 @@
         function pop_Courbesdeniveau_3(feature, layer) {
             layer.on({
                 mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
                     if (typeof layer.closePopup == 'function') {
                         layer.closePopup();
                     } else {
@@ -351,6 +376,9 @@
         function pop_Trace20200608Cad97_4(feature, layer) {
             layer.on({
                 mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
                     if (typeof layer.closePopup == 'function') {
                         layer.closePopup();
                     } else {
@@ -432,6 +460,9 @@
         function pop_Borne20200608Cad97_5(feature, layer) {
             layer.on({
                 mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
                     if (typeof layer.closePopup == 'function') {
                         layer.closePopup();
                     } else {
@@ -502,6 +533,9 @@
         function pop_Fourreaux20200608Cad97_6(feature, layer) {
             layer.on({
                 mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
                     if (typeof layer.closePopup == 'function') {
                         layer.closePopup();
                     } else {
@@ -572,6 +606,9 @@
         function pop_SondagesCad97_7(feature, layer) {
             layer.on({
                 mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
                     if (typeof layer.closePopup == 'function') {
                         layer.closePopup();
                     } else {
@@ -672,9 +709,7 @@
             },
         });
         bounds_group.addLayer(layer_SondagesCad97_7);
-        map.addLayer(layer_SondagesCad97_7);
-        var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="legend/SondagesCad97_7.png" /> SondagesCad97': layer_SondagesCad97_7,'<img src="legend/Fourreaux20200608Cad97_6.png" /> Fourreaux20200608Cad97': layer_Fourreaux20200608Cad97_6,'<img src="legend/Borne20200608Cad97_5.png" /> Borne20200608Cad97': layer_Borne20200608Cad97_5,'<img src="legend/Trace20200608Cad97_4.png" /> Trace20200608Cad97': layer_Trace20200608Cad97_4,'<img src="legend/Courbesdeniveau_3.png" /> Courbes de niveau': layer_Courbesdeniveau_3,'<img src="legend/Parcelles97_2.png" /> Parcelles97': layer_Parcelles97_2,'<img src="legend/Ilots20200608Cad97_1.png" /> Ilots20200608Cad97': layer_Ilots20200608Cad97_1,"OpenStreetMap": layer_OpenStreetMap_0,}).addTo(map);L.control.scale({position: 'bottomleft', maxWidth: 100, metric: true, imperial: false, updateWhenIdle: false}).addTo(map);
+        map.addLayer(layer_SondagesCad97_7);L.control.scale({position: 'bottomleft', maxWidth: 100, metric: true, imperial: false, updateWhenIdle: false}).addTo(map);
         setBounds();
         var i = 0;
         layer_Courbesdeniveau_3.eachLayer(function(layer) {
@@ -722,6 +757,635 @@
             propertyName: 'name'}));
         document.getElementsByClassName('search-button')[0].className +=
          ' fa fa-binoculars';
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"id_2": "int","proprio_10": "int","type": "str","update_dat": "str","nom": "str","kml_folder": "str","tex2": "str","coar": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+        var i = 0;
+        layer_Courbesdeniveau_3.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['ELEV'] !== null?String('<div style="color: #000000; font-size: 10pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['ELEV']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Courbesdeniveau_3'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var i = 0;
+        layer_Borne20200608Cad97_5.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['numéro'] !== null?String('<div style="color: #000000; font-size: 10pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['numéro']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Borne20200608Cad97_5'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var i = 0;
+        layer_SondagesCad97_7.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['name'] !== null?String('<div style="color: #000000; font-size: 10pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_SondagesCad97_7'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_id_2 = document.createElement("div");
+            div_id_2.id = "div_id_2";
+            div_id_2.className = "slider";
+            document.getElementById("menu").appendChild(div_id_2);
+            var lab_id_2 = document.createElement('div');
+            lab_id_2.innerHTML  = 'id_2: <span id="val_id_2"></span>';
+            lab_id_2.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_id_2);
+            var reset_id_2 = document.createElement('div');
+            reset_id_2.innerHTML = 'clear filter';
+            reset_id_2.className = 'filterlabel';
+            lab_id_2.className = 'filterlabel';
+            reset_id_2.onclick = function() {
+                sel_id_2.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_id_2);
+            var sel_id_2 = document.getElementById('div_id_2');
+            noUiSlider.create(sel_id_2, {
+                connect: true,
+                start: [NULL, 58],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: NULL,
+                max: 58
+                }
+            });
+            sel_id_2.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_id_2 = document.getElementById('val_id_2');
+            val_id_2.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_proprio_10 = document.createElement("div");
+            div_proprio_10.id = "div_proprio_10";
+            div_proprio_10.className = "slider";
+            document.getElementById("menu").appendChild(div_proprio_10);
+            var lab_proprio_10 = document.createElement('div');
+            lab_proprio_10.innerHTML  = 'proprio_10: <span id="val_proprio_10"></span>';
+            lab_proprio_10.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_proprio_10);
+            var reset_proprio_10 = document.createElement('div');
+            reset_proprio_10.innerHTML = 'clear filter';
+            reset_proprio_10.className = 'filterlabel';
+            lab_proprio_10.className = 'filterlabel';
+            reset_proprio_10.onclick = function() {
+                sel_proprio_10.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_proprio_10);
+            var sel_proprio_10 = document.getElementById('div_proprio_10');
+            noUiSlider.create(sel_proprio_10, {
+                connect: true,
+                start: [NULL, 156],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: NULL,
+                max: 156
+                }
+            });
+            sel_proprio_10.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_proprio_10 = document.getElementById('val_proprio_10');
+            val_proprio_10.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_type = document.createElement('div');
+            div_type.id = "div_type";
+            div_type.className= "filterselect";
+            document.getElementById("menu").appendChild(div_type);
+            sel_type = document.createElement('select');
+            sel_type.multiple = true;
+            sel_type.size = 3;
+            sel_type.id = "sel_type";
+            var type_options_str = "<option value='' unselected></option>";
+            sel_type.onchange = function(){filterFunc()};
+            type_options_str  += '<option value="PM">PM</option>';
+            type_options_str  += '<option value="SC">SC</option>';
+            type_options_str  += '<option value="SP">SP</option>';
+            sel_type.innerHTML = type_options_str;
+            div_type.appendChild(sel_type);
+            var lab_type = document.createElement('div');
+            lab_type.innerHTML = 'type';
+            lab_type.className = 'filterlabel';
+            div_type.appendChild(lab_type);
+            var reset_type = document.createElement('div');
+            reset_type.innerHTML = 'clear filter';
+            reset_type.className = 'filterlabel';
+            reset_type.onclick = function() {
+                var options = document.getElementById("sel_type").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_type.appendChild(reset_type);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_update_dat = document.createElement('div');
+            div_update_dat.id = "div_update_dat";
+            div_update_dat.className= "filterselect";
+            document.getElementById("menu").appendChild(div_update_dat);
+            sel_update_dat = document.createElement('select');
+            sel_update_dat.multiple = true;
+            sel_update_dat.size = 10;
+            sel_update_dat.id = "sel_update_dat";
+            var update_dat_options_str = "<option value='' unselected></option>";
+            sel_update_dat.onchange = function(){filterFunc()};
+            update_dat_options_str  += '<option value="2014-02-20">2014-02-20</option>';
+            update_dat_options_str  += '<option value="2014-02-27">2014-02-27</option>';
+            update_dat_options_str  += '<option value="2014-03-03">2014-03-03</option>';
+            update_dat_options_str  += '<option value="2014-03-10">2014-03-10</option>';
+            update_dat_options_str  += '<option value="2014-03-25">2014-03-25</option>';
+            update_dat_options_str  += '<option value="2014-04-08">2014-04-08</option>';
+            update_dat_options_str  += '<option value="2014-05-05">2014-05-05</option>';
+            update_dat_options_str  += '<option value="2014-05-13">2014-05-13</option>';
+            update_dat_options_str  += '<option value="2014-05-15">2014-05-15</option>';
+            update_dat_options_str  += '<option value="2014-05-21">2014-05-21</option>';
+            update_dat_options_str  += '<option value="2014-06-16">2014-06-16</option>';
+            update_dat_options_str  += '<option value="2014-08-13">2014-08-13</option>';
+            update_dat_options_str  += '<option value="2014-09-03">2014-09-03</option>';
+            update_dat_options_str  += '<option value="2014-09-19">2014-09-19</option>';
+            update_dat_options_str  += '<option value="2014-10-03">2014-10-03</option>';
+            update_dat_options_str  += '<option value="2014-11-06">2014-11-06</option>';
+            update_dat_options_str  += '<option value="2014-11-17">2014-11-17</option>';
+            update_dat_options_str  += '<option value="2014-11-25">2014-11-25</option>';
+            update_dat_options_str  += '<option value="2014-12-08">2014-12-08</option>';
+            update_dat_options_str  += '<option value="2014-12-16">2014-12-16</option>';
+            update_dat_options_str  += '<option value="2015-01-12">2015-01-12</option>';
+            update_dat_options_str  += '<option value="2015-01-21">2015-01-21</option>';
+            update_dat_options_str  += '<option value="2015-01-28">2015-01-28</option>';
+            update_dat_options_str  += '<option value="2015-02-02">2015-02-02</option>';
+            update_dat_options_str  += '<option value="2015-02-06">2015-02-06</option>';
+            update_dat_options_str  += '<option value="2015-03-12">2015-03-12</option>';
+            update_dat_options_str  += '<option value="2015-04-09">2015-04-09</option>';
+            update_dat_options_str  += '<option value="2015-04-30">2015-04-30</option>';
+            update_dat_options_str  += '<option value="2015-05-04">2015-05-04</option>';
+            update_dat_options_str  += '<option value="2015-05-18">2015-05-18</option>';
+            update_dat_options_str  += '<option value="2015-05-28">2015-05-28</option>';
+            update_dat_options_str  += '<option value="2015-06-02">2015-06-02</option>';
+            update_dat_options_str  += '<option value="2015-06-08">2015-06-08</option>';
+            update_dat_options_str  += '<option value="2015-06-23">2015-06-23</option>';
+            update_dat_options_str  += '<option value="2015-07-06">2015-07-06</option>';
+            update_dat_options_str  += '<option value="2015-08-03">2015-08-03</option>';
+            update_dat_options_str  += '<option value="2015-08-07">2015-08-07</option>';
+            update_dat_options_str  += '<option value="2015-08-19">2015-08-19</option>';
+            update_dat_options_str  += '<option value="2015-10-12">2015-10-12</option>';
+            update_dat_options_str  += '<option value="2015-10-14">2015-10-14</option>';
+            update_dat_options_str  += '<option value="2015-10-21">2015-10-21</option>';
+            update_dat_options_str  += '<option value="2015-11-18">2015-11-18</option>';
+            update_dat_options_str  += '<option value="2015-11-23">2015-11-23</option>';
+            update_dat_options_str  += '<option value="2015-11-30">2015-11-30</option>';
+            update_dat_options_str  += '<option value="2015-12-23">2015-12-23</option>';
+            update_dat_options_str  += '<option value="2016-01-04">2016-01-04</option>';
+            update_dat_options_str  += '<option value="2016-01-08">2016-01-08</option>';
+            update_dat_options_str  += '<option value="2016-02-01">2016-02-01</option>';
+            update_dat_options_str  += '<option value="2016-02-02">2016-02-02</option>';
+            update_dat_options_str  += '<option value="2016-02-04">2016-02-04</option>';
+            update_dat_options_str  += '<option value="2016-03-25">2016-03-25</option>';
+            update_dat_options_str  += '<option value="2016-04-06">2016-04-06</option>';
+            update_dat_options_str  += '<option value="2016-04-20">2016-04-20</option>';
+            update_dat_options_str  += '<option value="2016-05-03">2016-05-03</option>';
+            update_dat_options_str  += '<option value="2016-05-04">2016-05-04</option>';
+            update_dat_options_str  += '<option value="2016-05-30">2016-05-30</option>';
+            update_dat_options_str  += '<option value="2016-07-04">2016-07-04</option>';
+            update_dat_options_str  += '<option value="2016-08-17">2016-08-17</option>';
+            update_dat_options_str  += '<option value="2016-08-19">2016-08-19</option>';
+            update_dat_options_str  += '<option value="2016-09-05">2016-09-05</option>';
+            update_dat_options_str  += '<option value="2016-09-08">2016-09-08</option>';
+            update_dat_options_str  += '<option value="2016-09-15">2016-09-15</option>';
+            update_dat_options_str  += '<option value="2016-09-19">2016-09-19</option>';
+            update_dat_options_str  += '<option value="2016-09-22">2016-09-22</option>';
+            update_dat_options_str  += '<option value="2016-09-26">2016-09-26</option>';
+            update_dat_options_str  += '<option value="2016-09-28">2016-09-28</option>';
+            update_dat_options_str  += '<option value="2016-10-05">2016-10-05</option>';
+            update_dat_options_str  += '<option value="2016-10-24">2016-10-24</option>';
+            update_dat_options_str  += '<option value="2016-11-08">2016-11-08</option>';
+            update_dat_options_str  += '<option value="2016-11-12">2016-11-12</option>';
+            update_dat_options_str  += '<option value="2016-11-24">2016-11-24</option>';
+            update_dat_options_str  += '<option value="2016-12-05">2016-12-05</option>';
+            update_dat_options_str  += '<option value="2016-12-14">2016-12-14</option>';
+            update_dat_options_str  += '<option value="2017-02-15">2017-02-15</option>';
+            update_dat_options_str  += '<option value="2017-02-22">2017-02-22</option>';
+            update_dat_options_str  += '<option value="2017-03-16">2017-03-16</option>';
+            update_dat_options_str  += '<option value="2017-03-20">2017-03-20</option>';
+            update_dat_options_str  += '<option value="2017-03-27">2017-03-27</option>';
+            update_dat_options_str  += '<option value="2017-03-30">2017-03-30</option>';
+            update_dat_options_str  += '<option value="2017-04-20">2017-04-20</option>';
+            update_dat_options_str  += '<option value="2017-04-24">2017-04-24</option>';
+            update_dat_options_str  += '<option value="2017-07-05">2017-07-05</option>';
+            update_dat_options_str  += '<option value="2017-07-24">2017-07-24</option>';
+            update_dat_options_str  += '<option value="2017-09-18">2017-09-18</option>';
+            update_dat_options_str  += '<option value="2017-09-20">2017-09-20</option>';
+            update_dat_options_str  += '<option value="2017-09-26">2017-09-26</option>';
+            update_dat_options_str  += '<option value="2017-10-02">2017-10-02</option>';
+            update_dat_options_str  += '<option value="2017-10-03">2017-10-03</option>';
+            update_dat_options_str  += '<option value="2017-10-17">2017-10-17</option>';
+            update_dat_options_str  += '<option value="2017-10-24">2017-10-24</option>';
+            update_dat_options_str  += '<option value="2017-11-06">2017-11-06</option>';
+            update_dat_options_str  += '<option value="2017-11-08">2017-11-08</option>';
+            update_dat_options_str  += '<option value="2017-11-09">2017-11-09</option>';
+            update_dat_options_str  += '<option value="2017-11-14">2017-11-14</option>';
+            update_dat_options_str  += '<option value="2017-11-20">2017-11-20</option>';
+            update_dat_options_str  += '<option value="2017-12-14">2017-12-14</option>';
+            update_dat_options_str  += '<option value="2017-12-19">2017-12-19</option>';
+            update_dat_options_str  += '<option value="2017-12-28">2017-12-28</option>';
+            update_dat_options_str  += '<option value="2018-03-13">2018-03-13</option>';
+            update_dat_options_str  += '<option value="2018-03-26">2018-03-26</option>';
+            update_dat_options_str  += '<option value="2018-05-01">2018-05-01</option>';
+            update_dat_options_str  += '<option value="2018-05-07">2018-05-07</option>';
+            update_dat_options_str  += '<option value="2018-05-23">2018-05-23</option>';
+            update_dat_options_str  += '<option value="2018-05-30">2018-05-30</option>';
+            update_dat_options_str  += '<option value="2018-06-26">2018-06-26</option>';
+            update_dat_options_str  += '<option value="2018-06-27">2018-06-27</option>';
+            update_dat_options_str  += '<option value="2018-07-02">2018-07-02</option>';
+            update_dat_options_str  += '<option value="2018-07-13">2018-07-13</option>';
+            update_dat_options_str  += '<option value="2018-08-02">2018-08-02</option>';
+            update_dat_options_str  += '<option value="2018-08-06">2018-08-06</option>';
+            update_dat_options_str  += '<option value="2018-09-11">2018-09-11</option>';
+            update_dat_options_str  += '<option value="2018-11-05">2018-11-05</option>';
+            update_dat_options_str  += '<option value="2018-11-19">2018-11-19</option>';
+            update_dat_options_str  += '<option value="2018-12-06">2018-12-06</option>';
+            update_dat_options_str  += '<option value="2018-12-11">2018-12-11</option>';
+            update_dat_options_str  += '<option value="2018-12-18">2018-12-18</option>';
+            update_dat_options_str  += '<option value="2019-01-23">2019-01-23</option>';
+            update_dat_options_str  += '<option value="2019-01-29">2019-01-29</option>';
+            update_dat_options_str  += '<option value="2019-02-18">2019-02-18</option>';
+            update_dat_options_str  += '<option value="2019-02-22">2019-02-22</option>';
+            update_dat_options_str  += '<option value="2019-02-27">2019-02-27</option>';
+            update_dat_options_str  += '<option value="2019-03-01">2019-03-01</option>';
+            update_dat_options_str  += '<option value="2019-03-08">2019-03-08</option>';
+            update_dat_options_str  += '<option value="2019-04-04">2019-04-04</option>';
+            update_dat_options_str  += '<option value="2019-04-05">2019-04-05</option>';
+            update_dat_options_str  += '<option value="2019-04-09">2019-04-09</option>';
+            update_dat_options_str  += '<option value="2019-04-30">2019-04-30</option>';
+            update_dat_options_str  += '<option value="2019-05-23">2019-05-23</option>';
+            update_dat_options_str  += '<option value="2019-05-28">2019-05-28</option>';
+            update_dat_options_str  += '<option value="2019-06-07">2019-06-07</option>';
+            update_dat_options_str  += '<option value="2019-06-12">2019-06-12</option>';
+            update_dat_options_str  += '<option value="2019-06-13">2019-06-13</option>';
+            update_dat_options_str  += '<option value="2019-06-20">2019-06-20</option>';
+            update_dat_options_str  += '<option value="2019-06-24">2019-06-24</option>';
+            update_dat_options_str  += '<option value="2019-06-28">2019-06-28</option>';
+            update_dat_options_str  += '<option value="2019-07-16">2019-07-16</option>';
+            update_dat_options_str  += '<option value="2019-07-22">2019-07-22</option>';
+            update_dat_options_str  += '<option value="2019-07-23">2019-07-23</option>';
+            update_dat_options_str  += '<option value="2019-07-31">2019-07-31</option>';
+            update_dat_options_str  += '<option value="2019-08-13">2019-08-13</option>';
+            update_dat_options_str  += '<option value="2019-08-27">2019-08-27</option>';
+            update_dat_options_str  += '<option value="2019-09-06">2019-09-06</option>';
+            update_dat_options_str  += '<option value="2019-09-20">2019-09-20</option>';
+            update_dat_options_str  += '<option value="2019-09-30">2019-09-30</option>';
+            update_dat_options_str  += '<option value="2019-10-01">2019-10-01</option>';
+            update_dat_options_str  += '<option value="2019-10-02">2019-10-02</option>';
+            update_dat_options_str  += '<option value="2019-10-14">2019-10-14</option>';
+            update_dat_options_str  += '<option value="2019-10-15">2019-10-15</option>';
+            update_dat_options_str  += '<option value="2019-10-21">2019-10-21</option>';
+            update_dat_options_str  += '<option value="2019-10-23">2019-10-23</option>';
+            update_dat_options_str  += '<option value="2019-11-06">2019-11-06</option>';
+            update_dat_options_str  += '<option value="2019-11-12">2019-11-12</option>';
+            update_dat_options_str  += '<option value="2019-11-18">2019-11-18</option>';
+            update_dat_options_str  += '<option value="2019-11-19">2019-11-19</option>';
+            update_dat_options_str  += '<option value="2019-11-25">2019-11-25</option>';
+            update_dat_options_str  += '<option value="2019-11-28">2019-11-28</option>';
+            update_dat_options_str  += '<option value="2019-11-29">2019-11-29</option>';
+            update_dat_options_str  += '<option value="2019-12-10">2019-12-10</option>';
+            update_dat_options_str  += '<option value="2019-12-11">2019-12-11</option>';
+            sel_update_dat.innerHTML = update_dat_options_str;
+            div_update_dat.appendChild(sel_update_dat);
+            var lab_update_dat = document.createElement('div');
+            lab_update_dat.innerHTML = 'update_dat';
+            lab_update_dat.className = 'filterlabel';
+            div_update_dat.appendChild(lab_update_dat);
+            var reset_update_dat = document.createElement('div');
+            reset_update_dat.innerHTML = 'clear filter';
+            reset_update_dat.className = 'filterlabel';
+            reset_update_dat.onclick = function() {
+                var options = document.getElementById("sel_update_dat").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_update_dat.appendChild(reset_update_dat);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_nom = document.createElement('div');
+            div_nom.id = "div_nom";
+            div_nom.className= "filterselect";
+            document.getElementById("menu").appendChild(div_nom);
+            sel_nom = document.createElement('select');
+            sel_nom.multiple = true;
+            sel_nom.size = 10;
+            sel_nom.id = "sel_nom";
+            var nom_options_str = "<option value='' unselected></option>";
+            sel_nom.onchange = function(){filterFunc()};
+            nom_options_str  += '<option value="I_001">I_001</option>';
+            nom_options_str  += '<option value="I_003">I_003</option>';
+            nom_options_str  += '<option value="I_004">I_004</option>';
+            nom_options_str  += '<option value="I_005">I_005</option>';
+            nom_options_str  += '<option value="I_007">I_007</option>';
+            nom_options_str  += '<option value="I_009">I_009</option>';
+            nom_options_str  += '<option value="I_010">I_010</option>';
+            nom_options_str  += '<option value="I_011">I_011</option>';
+            nom_options_str  += '<option value="I_012">I_012</option>';
+            nom_options_str  += '<option value="I_014">I_014</option>';
+            nom_options_str  += '<option value="I_015">I_015</option>';
+            nom_options_str  += '<option value="I_016">I_016</option>';
+            nom_options_str  += '<option value="I_020">I_020</option>';
+            nom_options_str  += '<option value="I_021">I_021</option>';
+            nom_options_str  += '<option value="I_023">I_023</option>';
+            nom_options_str  += '<option value="I_024">I_024</option>';
+            nom_options_str  += '<option value="I_025">I_025</option>';
+            nom_options_str  += '<option value="I_026">I_026</option>';
+            nom_options_str  += '<option value="I_027">I_027</option>';
+            nom_options_str  += '<option value="I_028">I_028</option>';
+            nom_options_str  += '<option value="I_029">I_029</option>';
+            nom_options_str  += '<option value="I_030">I_030</option>';
+            nom_options_str  += '<option value="I_031">I_031</option>';
+            nom_options_str  += '<option value="I_032">I_032</option>';
+            nom_options_str  += '<option value="I_033">I_033</option>';
+            nom_options_str  += '<option value="I_035">I_035</option>';
+            nom_options_str  += '<option value="I_036">I_036</option>';
+            nom_options_str  += '<option value="I_037">I_037</option>';
+            nom_options_str  += '<option value="I_038">I_038</option>';
+            nom_options_str  += '<option value="I_039">I_039</option>';
+            nom_options_str  += '<option value="I_040">I_040</option>';
+            nom_options_str  += '<option value="I_042">I_042</option>';
+            nom_options_str  += '<option value="I_043">I_043</option>';
+            nom_options_str  += '<option value="I_044">I_044</option>';
+            nom_options_str  += '<option value="I_046">I_046</option>';
+            nom_options_str  += '<option value="I_047">I_047</option>';
+            nom_options_str  += '<option value="I_048">I_048</option>';
+            nom_options_str  += '<option value="I_049">I_049</option>';
+            nom_options_str  += '<option value="I_050">I_050</option>';
+            nom_options_str  += '<option value="I_051">I_051</option>';
+            nom_options_str  += '<option value="I_052">I_052</option>';
+            nom_options_str  += '<option value="I_053">I_053</option>';
+            nom_options_str  += '<option value="I_054">I_054</option>';
+            nom_options_str  += '<option value="I_055">I_055</option>';
+            nom_options_str  += '<option value="I_056">I_056</option>';
+            nom_options_str  += '<option value="I_057">I_057</option>';
+            nom_options_str  += '<option value="I_058">I_058</option>';
+            nom_options_str  += '<option value="I_059">I_059</option>';
+            nom_options_str  += '<option value="I_060">I_060</option>';
+            nom_options_str  += '<option value="I_061">I_061</option>';
+            nom_options_str  += '<option value="I_063">I_063</option>';
+            nom_options_str  += '<option value="I_064">I_064</option>';
+            nom_options_str  += '<option value="I_065">I_065</option>';
+            nom_options_str  += '<option value="I_066">I_066</option>';
+            nom_options_str  += '<option value="I_067">I_067</option>';
+            nom_options_str  += '<option value="I_068">I_068</option>';
+            nom_options_str  += '<option value="I_069">I_069</option>';
+            sel_nom.innerHTML = nom_options_str;
+            div_nom.appendChild(sel_nom);
+            var lab_nom = document.createElement('div');
+            lab_nom.innerHTML = 'nom';
+            lab_nom.className = 'filterlabel';
+            div_nom.appendChild(lab_nom);
+            var reset_nom = document.createElement('div');
+            reset_nom.innerHTML = 'clear filter';
+            reset_nom.className = 'filterlabel';
+            reset_nom.onclick = function() {
+                var options = document.getElementById("sel_nom").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_nom.appendChild(reset_nom);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_kml_folder = document.createElement('div');
+            div_kml_folder.id = "div_kml_folder";
+            div_kml_folder.className= "filterselect";
+            document.getElementById("menu").appendChild(div_kml_folder);
+            sel_kml_folder = document.createElement('select');
+            sel_kml_folder.multiple = true;
+            sel_kml_folder.size = 5;
+            sel_kml_folder.id = "sel_kml_folder";
+            var kml_folder_options_str = "<option value='' unselected></option>";
+            sel_kml_folder.onchange = function(){filterFunc()};
+            kml_folder_options_str  += '<option value="NULL">NULL</option>';
+            kml_folder_options_str  += '<option value="Cabine_L93">Cabine_L93</option>';
+            kml_folder_options_str  += '<option value="Fourreau_en_attente_pour_reseau_privé">Fourreau_en_attente_pour_reseau_privé</option>';
+            kml_folder_options_str  += '<option value="Ilots_L93">Ilots_L93</option>';
+            kml_folder_options_str  += '<option value="Trace_APD_opt1">Trace_APD_opt1</option>';
+            sel_kml_folder.innerHTML = kml_folder_options_str;
+            div_kml_folder.appendChild(sel_kml_folder);
+            var lab_kml_folder = document.createElement('div');
+            lab_kml_folder.innerHTML = 'kml_folder';
+            lab_kml_folder.className = 'filterlabel';
+            div_kml_folder.appendChild(lab_kml_folder);
+            var reset_kml_folder = document.createElement('div');
+            reset_kml_folder.innerHTML = 'clear filter';
+            reset_kml_folder.className = 'filterlabel';
+            reset_kml_folder.onclick = function() {
+                var options = document.getElementById("sel_kml_folder").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_kml_folder.appendChild(reset_kml_folder);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_tex2 = document.createElement('div');
+            div_tex2.id = "div_tex2";
+            div_tex2.className= "filterselect";
+            document.getElementById("menu").appendChild(div_tex2);
+            sel_tex2 = document.createElement('select');
+            sel_tex2.multiple = true;
+            sel_tex2.size = 1;
+            sel_tex2.id = "sel_tex2";
+            var tex2_options_str = "<option value='' unselected></option>";
+            sel_tex2.onchange = function(){filterFunc()};
+            tex2_options_str  += '<option value="NULL">NULL</option>';
+            sel_tex2.innerHTML = tex2_options_str;
+            div_tex2.appendChild(sel_tex2);
+            var lab_tex2 = document.createElement('div');
+            lab_tex2.innerHTML = 'tex2';
+            lab_tex2.className = 'filterlabel';
+            div_tex2.appendChild(lab_tex2);
+            var reset_tex2 = document.createElement('div');
+            reset_tex2.innerHTML = 'clear filter';
+            reset_tex2.className = 'filterlabel';
+            reset_tex2.onclick = function() {
+                var options = document.getElementById("sel_tex2").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_tex2.appendChild(reset_tex2);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_coar = document.createElement('div');
+            div_coar.id = "div_coar";
+            div_coar.className= "filterselect";
+            document.getElementById("menu").appendChild(div_coar);
+            sel_coar = document.createElement('select');
+            sel_coar.multiple = true;
+            sel_coar.size = 2;
+            sel_coar.id = "sel_coar";
+            var coar_options_str = "<option value='' unselected></option>";
+            sel_coar.onchange = function(){filterFunc()};
+            coar_options_str  += '<option value="NULL">NULL</option>';
+            coar_options_str  += '<option value="A">A</option>';
+            sel_coar.innerHTML = coar_options_str;
+            div_coar.appendChild(sel_coar);
+            var lab_coar = document.createElement('div');
+            lab_coar.innerHTML = 'coar';
+            lab_coar.className = 'filterlabel';
+            div_coar.appendChild(lab_coar);
+            var reset_coar = document.createElement('div');
+            reset_coar.innerHTML = 'clear filter';
+            reset_coar.className = 'filterlabel';
+            reset_coar.onclick = function() {
+                var options = document.getElementById("sel_coar").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_coar.appendChild(reset_coar);
         resetLabels([layer_Courbesdeniveau_3,layer_Borne20200608Cad97_5,layer_SondagesCad97_7]);
         map.on("zoomend", function(){
             resetLabels([layer_Courbesdeniveau_3,layer_Borne20200608Cad97_5,layer_SondagesCad97_7]);
